@@ -75,7 +75,7 @@
                 console.log('hii')
                 var input= document.getElementById("inp").value
                 var xhr= new XMLHttpRequest();
-                xhr.open("GET","http://IP_address/cgi-bin/docker.py?x="+input, true);
+                xhr.open("GET","http://15.206.79.222/kube.py?x="+input, true);
                 xhr.send();
                 xhr.onload= function(){
                         console.log("onload")
