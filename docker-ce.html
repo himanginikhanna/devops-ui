@@ -6,21 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700,900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/icomoon/style.css">
-
-
-    <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
-
+   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js">
-
-
-
     
-    <!-- Style -->
-    <link rel="stylesheet" href="assets/css/docker-ce.css">
+
+    <link rel="stylesheet" href="docker-ce.css">
 
     <title>Docker UI</title>
 
@@ -37,78 +29,72 @@
           
           <p>Docker makes development efficient and predictable
             Docker takes away repetitive, mundane configuration tasks and is used throughout the development lifecycle for fast, easy and portable application development - desktop and cloud. Docker’s comprehensive end to end platform includes UIs, CLIs, APIs and security that are engineered to work together across the entire application delivery lifecycle. </p>
-
-            <p> Click on the button below to delete all the containers</p>
-            <button> Delete All</button>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-7">
           <div class="box">
             <h3 class="heading">Run Your commands here</h3>
-            <form class="mb-5" method="post" id="dockercommand"          name="dockercommand">   
+            <form class="mb-5" method="post" id="dockercommand" name="dockercommand">
               <div class="row">
                 
-                <div class="col-md-6 form-group">
-                  <label for="Name" class="col-form-label">Command</label>
+                <div class="col-md-12 form-group">
+                  <label for="Name" class="col-form-label">Command</label><br>
                   <input id="inp" type="text"  placeholder="type docker command.."/>  <br> <br>
-                  <button onclick= "cgi()" > Submit</button> 
-                  <div class='error'>
-                    Please write only container/image name
-                  </div>   
+                  <button onclick="cgi()"> Submit</button> 
+                  <div class='error'>Please write only container/image name</div>
+                   
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label for="message" class="col-form-label">Output </label>
-                  <textarea class="form-control" name="message" id="message" cols="30" rows="15"></textarea>
+                  <pre class="output" id="output">
+                    sas
+                  </pre>
                 </div>
               </div>
+              
+             
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <script>
-      document.querySelector(".container2").style.display = "block";
+            <script>
+  
         
-      function cgi()
-      {
-        console.log('hii')
-        var input= document.getElementById("inp").value
-        var xhr= new XMLHttpRequest();
-        xhr.open("GET","http://IP_address/cgi-bin/docker.py?x="+input, true);
-        xhr.send();
-        xhr.onload= function()
-        {
-        console.log("onload")
-        var output= xhr.responseText;
-        console.log(message)
-        document.getElementById("message").innerHTML= output
-          }
-      }
+              function cgi(){
+                console.log('hii')
+                var input= document.getElementById("inp").value
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://172.31.7.96/cgi-bin/docker.py?x="+input, true);
+                xhr.send();
+                xhr.onload= function(){
+                        console.log("onload")
+                  var output= xhr.responseText;
+                        console.log(output)
+                  document.getElementById("output").innerHTML= output
+                }
+              }
 
-        function dImages(){
-          document.getElementById("inp").value='docker images';
-          cgi();
-        }
-
-        function runContainer(){
-          document.getElementById("inp").value='docker ps -a';
-          cgi();
-        }
-
-        function cmd(str)
-        {
-          document.querySelector(".error").style.display = "none";
-          var inputValue = document.getElementById("inp").value;
-            if(inputValue){
-              document.getElementById("inp").value= str+" "+inputValue;
-              cgi();
-            }
-            else{
-              document.querySelector(".error").style.display = "block";
-            } 
-        }
-    </script>
+              function dImages(){
+                document.getElementById("inp").value='docker images';
+                cgi();
+              }
+              function runContainer(){
+                document.getElementById("inp").value='docker ps -a';
+                cgi();
+              }
+              function cmd(str){
+                document.querySelector(".error").style.display = "none";
+                var inputValue = document.getElementById("inp").value;
+                if(inputValue){
+                  document.getElementById("inp").value= str+" "+inputValue;
+                  cgi();
+                }else{
+                  document.querySelector(".error").style.display = "block";
+                }
+              }
+            </script>
   </body>
 </html>
