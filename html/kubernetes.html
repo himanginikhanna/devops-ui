@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700,900&display=swap" rel="stylesheet">
+
+    
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js">
+    
+    
+    <link rel="stylesheet" href="docker-ce.css">
+
+    <title>Kubernetes UI </title>
+
+    <link href="assets/img/favicon.png" rel="icon">
+  </head>
+  <body>
+
+  <div class="content">
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 mr-auto">
+          <h3 class="icon" > Kubernetes <img src="https://img.icons8.com/ios/32/000000/kubernetes.png"/> </h3>
+          
+          <p>Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
+
+            The name Kubernetes originates from Greek, meaning helmsman or pilot. K8s as an abbreviation results from counting the eight letters between the "K" and the "s". Google open-sourced the Kubernetes project in 2014. Kubernetes combines over 15 years of Google's experience running production workloads at scale with best-of-breed ideas and practices from the community.
+            
+             </p>
+             <br>
+              <button onclick="delete_all()" id="btn">  Delete all Resources </button> 
+              <br>
+	      <br>
+	      <h7>NOTE:- Use image "vimal13/apache-webserver-php"
+	      
+	      or image running any other application
+              </h7>
+
+               
+
+        </div>
+
+        <div class="col-md-7">
+          <div class="box">
+            <h3 class="heading">Run Your commands here</h3>
+            <div class="mb-5"  id="kubernetescommand" name="kubernetescommand">
+              <div class="row">
+                
+                <div class="col-md-12 form-group">
+                  <label for="Name" class="col-form-label">Command</label><br>
+                  <input class='input' id="inp" type="text"  placeholder="type kubernetes command.."/>  <br> <br>
+                  <button onclick="cgi()"> Submit </button> 
+		  <!--div class='error'>Please write only container/image name</div-->
+                   
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label for="message" class="col-form-label">Output </label>
+                  
+                    <pre class='output' id='output'>
+
+
+		    </pre>
+                
+                </div>
+              </div>
+              
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <script>
+        
+              function cgi(){
+                console.log('hii')
+                var input= document.getElementById("inp").value
+		      console.log(input)
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://52.66.248.162//cgi-bin/kube.py?x="+input, true);
+                xhr.send();
+                xhr.onload= function(){
+                        console.log("onload")
+                  var output= xhr.responseText;
+                        console.log(output)
+                  document.getElementById("output").innerHTML= output
+                }
+              }
+              function dImages(){
+                document.getElementById("inp").value='docker images';
+                cgi();
+              }
+              function runContainer(){
+                document.getElementById("inp").value='docker ps -a';
+                cgi();
+              }
+              function cmd(str){
+                document.querySelector(".error").style.display = "none";
+                var inputValue = document.getElementById("inp").value;
+                if(inputValue){
+                  document.getElementById("inp").value= str+" "+inputValue;
+                  cgi();
+                }else{
+                  document.querySelector(".error").style.display = "block";
+                }
+              }
+              function delete_all(){
+                console.log('hii')
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://52.66.248.162//cgi-bin/kube.py?x=kubectl%20delete%20all%20--all", true);
+                xhr.send();
+                xhr.onload= function(){
+                        console.log("onload")
+                  var output= xhr.responseText;
+                        console.log(output)
+                  document.getElementById("output").innerHTML= output
+                }
+              }
+            </script>
+  </body>
+</html>
+
+
